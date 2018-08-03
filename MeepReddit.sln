@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeepReddit", "MeepReddit\MeepReddit.csproj", "{404CE593-34E5-4DFB-A447-C6E0D9963064}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeepRedditTests", "MeepRedditTests\MeepRedditTests.csproj", "{B4E15BE1-F300-4D24-8EB9-24808C9F160B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{404CE593-34E5-4DFB-A447-C6E0D9963064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{404CE593-34E5-4DFB-A447-C6E0D9963064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{404CE593-34E5-4DFB-A447-C6E0D9963064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{404CE593-34E5-4DFB-A447-C6E0D9963064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E15BE1-F300-4D24-8EB9-24808C9F160B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E15BE1-F300-4D24-8EB9-24808C9F160B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E15BE1-F300-4D24-8EB9-24808C9F160B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E15BE1-F300-4D24-8EB9-24808C9F160B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
