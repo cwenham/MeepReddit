@@ -10,9 +10,17 @@ using MeepLib.Messages;
 namespace MeepReddit.Messages
 {
     [DataContract]
-    public class PMMessage : Message
+    public class PMMessage : Message, IThingMessage
     {
         [DataMember]
         public PrivateMessage Message { get; set; }
+
+        public Thing Thing
+        {
+            get
+            {
+                return Message as Thing;
+            }
+        }
     }
 }

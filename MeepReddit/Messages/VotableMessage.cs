@@ -10,9 +10,17 @@ using MeepLib.Messages;
 namespace MeepReddit.Messages
 {
     [DataContract]
-    public class VotableMessage : Message
+    public class VotableMessage : Message, IThingMessage
     {
         [DataMember]
         public VotableThing Votable { get; set; }
+
+        public Thing Thing
+        {
+            get
+            {
+                return Votable as Thing;
+            }
+        }
     }
 }

@@ -27,15 +27,16 @@ namespace MeepReddit
                     string clientSecret = Smart.Format(ClientSecret, context);
                     string redirectURI = Smart.Format(RedirectURI, context);
 
-                    _agent = new BotWebAgent(user, pass, clientID, clientSecret, redirectURI);
-                    _client = new Reddit(_agent);
+                    Agent = new BotWebAgent(user, pass, clientID, clientSecret, redirectURI);
+                    _client = new Reddit(Agent);
                 }
 
                 return _client;
             }
         }
-        private BotWebAgent _agent;
         private Reddit _client;
+
+        protected BotWebAgent Agent;
 
         public string User { get; set; } = "{cfg.RedditUser.User}";
 

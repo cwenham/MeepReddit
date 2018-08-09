@@ -10,7 +10,7 @@ using MeepLib.Messages;
 namespace MeepReddit.Messages
 {
     [DataContract]
-    public class ThingMessage : Message
+    public class ThingMessage : Message, IThingMessage
     {
         [DataMember]
         public Thing Thing { get; set; }
