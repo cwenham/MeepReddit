@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using SmartFormat;
 using RedditSharp;
@@ -20,14 +21,21 @@ namespace MeepReddit
             {
                 if (_client == null)
                 {
-                    MessageContext context = new MessageContext(null, this);
-                    string user = Smart.Format(User, context);
-                    string pass = Smart.Format(Pass, context);
-                    string clientID = Smart.Format(ClientID, context);
-                    string clientSecret = Smart.Format(ClientSecret, context);
-                    string redirectURI = Smart.Format(RedirectURI, context);
+                    Agents.TryGetValue(AppKey, out Agent);
 
-                    Agent = new BotWebAgent(user, pass, clientID, clientSecret, redirectURI);
+                    if (Agent == null)
+                    {
+                        MessageContext context = new MessageContext(null, this);
+                        string user = Smart.Format(User.Replace("#Login", Login), context);
+                        string pass = Smart.Format(Pass.Replace("#Login", Login), context);
+                        string clientID = Smart.Format(ClientID.Replace("#AppKey", AppKey), context);
+                        string clientSecret = Smart.Format(ClientSecret.Replace("#AppKey", AppKey), context);
+                        string redirectURI = Smart.Format(RedirectURI.Replace("#AppKey", AppKey), context);
+
+                        Agent = new BotWebAgent(user, pass, clientID, clientSecret, redirectURI);
+                        Agents.Add(AppKey, Agent);
+                    }
+
                     _client = new Reddit(Agent);
                 }
 
@@ -38,25 +46,67 @@ namespace MeepReddit
 
         protected BotWebAgent Agent;
 
-        public string User { get; set; } = "{cfg.RedditUser.User}";
+        /// <summary>
+        /// Static collection of agents
+        /// </summary>
+        /// <remarks>We need to maintain the same instance for each login so it
+        /// can enforce API polling limits and avoid having reddit shut us off.</remarks>
+        protected static Dictionary<string, BotWebAgent> Agents = new Dictionary<string, BotWebAgent>();
 
-        public string Pass { get; set; } = "{cfg.RedditUser.Pass}";
+        /// <summary>
+        /// Name of AppKey config element
+        /// </summary>
+        /// <value>The AppKey config name.</value>
+        public string AppKey { get; set; } = "MeepReddit";
+
+        /// <summary>
+        /// Name of Login config element with username and password
+        /// </summary>
+        /// <value>The login config name.</value>
+        public string Login { get; set; } = "RedditUser";
+
+        // For the following, we're going to replace the value of #Login and
+        // #AppKey with the above at runtime. This is to allow a mix of
+        // configuration styles, from outright setting the user/pass in place
+        // to using the safer method of AppKey and Login elements in a separate
+        // file XIncluded into the main.
+
+        /// <summary>
+        /// Explicitly set the username, in {Smart.Format}
+        /// </summary>
+        /// <value>The user.</value>
+        /// <remarks>Usually left unchanged if you're using the Login
+        /// attribute to name a &lt;Login&gt; element.</remarks>
+        public string User { get; set; } = "{cfg.#Login.User}";
+
+        /// <summary>
+        /// Explicitly set the password, in {Smart.Format}
+        /// </summary>
+        /// <value>The password.</value>
+        /// <remarks>Usually left unchanged if you're using the Login attribute.</remarks>
+        public string Pass { get; set; } = "{cfg.#Login.Pass}";
 
         /// <summary>
         /// Client ID
         /// </summary>
         /// <value>The reddit client identifier.</value>
-        public string ClientID { get; set; } = "{cfg.MeepReddit.ClientID}";
+        /// <remarks>Usually left unchanged if you're using the AppKey attribute
+        /// to name a &lt;AppKey&gt; element.</remarks>
+        public string ClientID { get; set; } = "{cfg.#AppKey.ClientID}";
 
         /// <summary>
         /// Client secret
         /// </summary>
         /// <value>The reddit client secret.</value>
-        /// <remarks>Don't set this directly, use a {Smart.Formatted} reference
-        /// to a configuration key.</remarks>
-        public string ClientSecret { get; set; } = "{cfg.MeepReddit.ClientSecret}";
+        /// <remarks>Usually left unchanged if you're using the AppKey attribute.</remarks>
+        public string ClientSecret { get; set; } = "{cfg.#AppKey.ClientSecret}";
 
-        public string RedirectURI { get; set; } = "{cfg.MeepReddit.RedirectURI}";
+        /// <summary>
+        /// Gets or sets the redirect URI.
+        /// </summary>
+        /// <value>The redirect URI.</value>
+        /// <remarks>Usually left unchanged if you're using the AppKey attribute.</remarks>
+        public string RedirectURI { get; set; } = "{cfg.#AppKey.RedirectURI}";
 
         /// <summary>
         /// Reddit's main URL
