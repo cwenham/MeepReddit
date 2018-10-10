@@ -27,9 +27,18 @@
     <Reference Include="MeepModel">
       <HintPath>..\..\Meep\MeepLib\bin\Debug\netcoreapp2.0\MeepModel.dll</HintPath>
     </Reference>
+    <Reference Include="MeepLib">
+      <HintPath>..\..\cwenham\Meep\MeepLib\bin\Debug\netcoreapp2.1\MeepLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MeepModel">
+      <HintPath>..\..\cwenham\Meep\MeepLib\bin\Debug\netcoreapp2.1\MeepModel.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Messages\" />
     <Folder Include="Actions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Messages\OverviewMessage.xml" />
   </ItemGroup>
 </Project>
