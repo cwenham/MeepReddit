@@ -134,7 +134,8 @@ namespace MeepReddit
         {
             return new PostMessage
             {
-                Post = thing as Post
+                Post = thing as Post,
+                Name = this.Name
             };
         }
 
@@ -142,7 +143,8 @@ namespace MeepReddit
         {
             return new VotableMessage
             {
-                Votable = thing as VotableThing
+                Votable = thing as VotableThing,
+                Name = this.Name
             };
         }
 
@@ -150,7 +152,8 @@ namespace MeepReddit
         {
             return new CommentMessage
             {
-                Comment = thing as Comment
+                Comment = thing as Comment,
+                Name = this.Name
             };
         }
 
@@ -158,7 +161,8 @@ namespace MeepReddit
         {
             return new PMMessage
             {
-                Message = thing as PrivateMessage
+                Message = thing as PrivateMessage,
+                Name = this.Name
             };
         }
 
@@ -166,7 +170,8 @@ namespace MeepReddit
         {
             return new ModActionMessage
             {
-                Action = thing as ModAction
+                Action = thing as ModAction,
+                Name = this.Name
             };
         }
     }
