@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using Newtonsoft.Json;
 using RedditSharp;
@@ -14,6 +17,15 @@ namespace MeepReddit.Messages
     {
         [DataMember]
         public PrivateMessage Message { get; set; }
+
+        [MaxLength(20), Key]
+        public string FullName
+        {
+            get
+            {
+                return Message.FullName;
+            }
+        }
 
         public Thing Thing
         {
