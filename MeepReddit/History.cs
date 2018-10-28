@@ -65,11 +65,37 @@ namespace MeepReddit
                 DerivedFrom = msg,
                 User = user,
                 Messages = from vt in things
-                           select new VotableMessage
-                           {
-                               DerivedFrom = msg,
-                               Votable = vt
-                           }
+                           select MessageByThing(vt, msg)
+            };
+        }
+
+        public static Message MessageByThing(Thing thing, Message derivedFrom)
+        {
+            if (thing is Comment)
+                return new CommentMessage
+                {
+                    DerivedFrom = derivedFrom,
+                    Comment = thing as Comment
+                };
+
+            if (thing is Post)
+                return new PostMessage
+                {
+                    DerivedFrom = derivedFrom,
+                    Post = thing as Post
+                };
+
+            if (thing is VotableThing)
+                return new VotableMessage
+                {
+                    DerivedFrom = derivedFrom,
+                    Votable = thing as VotableThing
+                };
+
+            return new ThingMessage
+            {
+                DerivedFrom = derivedFrom,
+                Thing = thing
             };
         }
     }
