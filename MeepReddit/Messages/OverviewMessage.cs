@@ -56,7 +56,7 @@ namespace MeepReddit.Messages
         [Index(IsUnique = false)]
         public bool Gold
         {
-            get 
+            get
             {
                 return User.HasGold;
             }
@@ -65,7 +65,7 @@ namespace MeepReddit.Messages
         [Index(IsUnique = false)]
         public int LinkKarma
         {
-            get 
+            get
             {
                 return User.LinkKarma;
             }
@@ -96,18 +96,21 @@ namespace MeepReddit.Messages
         /// <remarks>If training a classifier on the content of the messages
         /// rather than where they were posted, you'd need to unbatch them first.</remarks>
         [NotMapped]
-        public IEnumerable<string> Tokens 
+        public IEnumerable<string> Tokens
         {
-            get {
-                return (from m in Messages
-                        let vm = m as VotableMessage
-                        where vm != null
-                        let p = vm.Thing as Post
-                        let c = vm.Thing as Comment
-                        let subreddit = p?.SubredditName ?? c?.Subreddit
-                        where subreddit != null
-                        select subreddit).ToArray();
+            get
+            {
+                if (_tokens == null)
+                    _tokens = (from m in Messages
+                               let p = m as PostMessage
+                               let c = m as CommentMessage
+                               let subreddit = p?.Subreddit ?? c?.Subreddit
+                               where subreddit != null
+                               select subreddit).ToArray();
+
+                return _tokens;
             }
         }
+        private string[] _tokens;
     }
 }

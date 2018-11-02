@@ -64,8 +64,8 @@ namespace MeepReddit
             {
                 DerivedFrom = msg,
                 User = user,
-                Messages = from vt in things
-                           select MessageByThing(vt, msg)
+                Messages = (from vt in things
+                            select MessageByThing(vt, msg)).ToList()
             };
         }
 

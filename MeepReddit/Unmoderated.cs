@@ -28,14 +28,19 @@ namespace MeepReddit
             get
             {
                 if (_pipeline == null)
-                {
-                    var sub = GetSub(Subreddit);
-                    var posts = sub.GetUnmoderatedLinks();
-                    var stream = posts.Stream();
+                    try
+                    {
+                        var sub = GetSub(Subreddit);
+                        var posts = sub.GetUnmoderatedLinks();
+                        var stream = posts.Stream();
 
-                    _pipeline = stream.Select(ConvertToPost);
-                    stream.Enumerate(new System.Threading.CancellationToken());
-                }
+                        _pipeline = stream.Select(ConvertToPost);
+                        stream.Enumerate(new System.Threading.CancellationToken());
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex, $"{ex.GetType().Name} thrown when trying to get {Subreddit} unmoderated: {ex.Message}");
+                    }
 
                 return _pipeline;
             }
