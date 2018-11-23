@@ -27,7 +27,7 @@ namespace MeepReddit.Actions
         /// Fullname of Thing to remove, in {Smart.Format}
         /// </summary>
         /// <value></value>
-        public string Fullname { get; set; }
+        public string FullName { get; set; }
 
         /// <summary>
         /// Remove as spam
@@ -38,7 +38,7 @@ namespace MeepReddit.Actions
         public override async Task<Message> HandleMessage(Message msg)
         {
             MessageContext context = new MessageContext(msg, this);
-            string fname = Smart.Format(Fullname, context);
+            string fname = Smart.Format(FullName, context);
 
             try
             {

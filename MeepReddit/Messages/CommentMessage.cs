@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.ComponentModel.DataAnnotations;
@@ -10,11 +11,12 @@ using RedditSharp.Things;
 
 using MeepLib;
 using MeepLib.Messages;
+using System.Collections.Generic;
 
 namespace MeepReddit.Messages
 {
     [DataContract, Table("Comments")]
-    public class CommentMessage : Message, IThingMessage
+    public class CommentMessage : Message, IThingMessage, ITokenisable
     {
         [DataMember, NotMapped]
         public Comment Comment { get; set; }
@@ -98,5 +100,20 @@ namespace MeepReddit.Messages
                 return Comment.AuthorFlairCssClass;
             }
         }
+
+        [NotMapped, XmlIgnore, JsonIgnore]
+        public IEnumerable<string> Tokens 
+        {
+            get 
+            {
+                if (_tokens is null)
+                    _tokens = (from t in Comment.Body.Split(' ')
+                               where !String.IsNullOrWhiteSpace(t)
+                               select t).ToArray();
+
+                return _tokens;
+            }
+        }
+        private string[] _tokens;
     }
 }
