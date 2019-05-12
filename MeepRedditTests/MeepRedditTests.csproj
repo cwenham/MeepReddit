@@ -1,35 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170628-02" />
-    <PackageReference Include="xunit" Version="2.2.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="MeepLib">
-      <HintPath>..\..\Meep\MeepLib\bin\Debug\netcoreapp2.0\MeepLib.dll</HintPath>
+      <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.1\MeepLib.dll</HintPath>
     </Reference>
     <Reference Include="MeepModel">
-      <HintPath>..\..\Meep\MeepLib\bin\Debug\netcoreapp2.0\MeepModel.dll</HintPath>
-    </Reference>
-    <Reference Include="MeepLib">
-      <HintPath>..\..\cwenham\Meep\MeepLib\bin\Debug\netcoreapp2.1\MeepLib.dll</HintPath>
-    </Reference>
-    <Reference Include="MeepModel">
-      <HintPath>..\..\cwenham\Meep\MeepLib\bin\Debug\netcoreapp2.1\MeepModel.dll</HintPath>
-    </Reference>
-    <Reference Include="MeepLib">
-      <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.0\MeepLib.dll</HintPath>
-    </Reference>
-    <Reference Include="MeepModel">
-      <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.0\MeepModel.dll</HintPath>
+      <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.1\MeepModel.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

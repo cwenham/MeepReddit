@@ -30,8 +30,9 @@ namespace MeepReddit
             get
             {
                 object type;
-                if (Enum.TryParse(typeof(Subreddit.Sort), Sort, out type))
-                    return (Subreddit.Sort)type;
+                if (!String.IsNullOrWhiteSpace(Sort))
+                    if (Enum.TryParse(typeof(Subreddit.Sort), Sort, out type))
+                        return (Subreddit.Sort)type;
 
                 return RedditSharp.Things.Subreddit.Sort.New;
             }

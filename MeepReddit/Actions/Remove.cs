@@ -42,10 +42,13 @@ namespace MeepReddit.Actions
 
             try
             {
-                if (Spam)
-                    await ModeratableThing.SpamAsync(Agent, fname);
-                else
-                    await ModeratableThing.RemoveAsync(Agent, fname);
+                var removable = await Client.GetThingByFullnameAsync(fname);
+                var moddable = removable as ModeratableThing;
+                if (moddable != null)
+                    if (Spam)
+                        await moddable.RemoveSpamAsync();
+                    else
+                        await moddable.RemoveAsync();
             }
             catch (Exception ex)
             {
