@@ -60,12 +60,5 @@ namespace MeepReddit
             }
         }
         protected IObservable<Message> _pipeline;
-
-        protected Subreddit GetSub(string subName)
-        {
-            var subTask = Client.GetSubredditAsync(subName);
-            subTask.Wait();
-            return subTask.Result;
-        }
     }
 }

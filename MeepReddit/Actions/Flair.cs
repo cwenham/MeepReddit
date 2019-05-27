@@ -20,7 +20,8 @@ using MeepReddit.Messages;
 
 namespace MeepReddit.Actions
 {
-    public class Flair : AMessageModule
+    [MeepNamespace(ARedditModule.PluginNamespace)]
+    public class Flair : ARedditModule
     {
         /// <summary>
         /// Flair text, in {Smart.Format}
@@ -36,22 +37,33 @@ namespace MeepReddit.Actions
 
         public override async Task<Message> HandleMessage(Message msg)
         {
+            MessageContext context = new MessageContext(msg, this);
+            string sfText = Smart.Format(Text ?? "", context);
+            string sfClass = Smart.Format(Class ?? "", context);
+
             PostMessage postMsg = msg as PostMessage;
-            if (msg == null)
-                return msg;               
+            if (postMsg != null)
+                try
+                {
+                    await postMsg.Post.SetFlairAsync(sfText, sfClass);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, $"{ex.GetType().Name} thrown when setting post flair: {ex.Message}");
+                }
 
-            try
-            {
-                MessageContext context = new MessageContext(msg, this);
-                string sfText = Smart.Format(Text ?? "", context);
-                string sfClass = Smart.Format(Class ?? "", context);
-
-                await postMsg.Post.SetFlairAsync(sfText, sfClass);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, $"{ex.GetType().Name} thrown when setting post flair: {ex.Message}");
-            }
+            OverviewMessage userMsg = msg as OverviewMessage;
+            if (userMsg != null)
+                try 
+	            {
+                    string sfSub = Smart.Format(Subreddit, context);
+                    var sub = GetSub(sfSub);
+                    await sub.SetUserFlairAsync(userMsg.FullName, sfClass, sfText);
+                }
+	            catch (Exception ex)
+	            {
+                    logger.Error(ex, $"{ex.GetType().Name} thrown when setting user flair: {ex.Message}");
+                }
 
             return msg;
         }

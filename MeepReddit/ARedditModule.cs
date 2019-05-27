@@ -130,6 +130,13 @@ namespace MeepReddit
         /// contact the creator in case of problems.</remarks>
         public string UserAgent { get; set; } = "MeepReddit v0.1 (by /u/cwenham)";
 
+        protected Subreddit GetSub(string subName)
+        {
+            var subTask = Client.GetSubredditAsync(subName);
+            subTask.Wait();
+            return subTask.Result;
+        }
+
         protected PostMessage ConvertToPost(Thing thing)
         {
             return new PostMessage

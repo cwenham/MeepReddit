@@ -40,6 +40,9 @@ namespace MeepReddit.Actions
             MessageContext context = new MessageContext(msg, this);
             string fname = Smart.Format(FullName, context);
 
+            if (String.IsNullOrWhiteSpace(fname))
+                return null;
+
             try
             {
                 var removable = await Client.GetThingByFullnameAsync(fname);
