@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -10,7 +10,7 @@
       <CustomCommands>
         <Command>
           <type>AfterBuild</type>
-          <command>dotnet publish -r osx.10.10-x64</command>
+          <command>dotnet publish -r osx.10.14-x64</command>
         </Command>
       </CustomCommands>
     </CustomCommands>
@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="CoreCLR-NCalc" Version="2.2.59" />
     <PackageReference Include="SmartFormat.NET" Version="2.4.2" />
-    <PackageReference Include="NLog" Version="4.6.3" />
+    <PackageReference Include="NLog" Version="4.6.5" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="RedditSharp" Version="2.0.0-CI00075" />
   </ItemGroup>

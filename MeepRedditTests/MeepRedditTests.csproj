@@ -22,6 +22,12 @@
     <Reference Include="MeepModel">
       <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.1\MeepModel.dll</HintPath>
     </Reference>
+    <Reference Include="MeepLib">
+      <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.1\MeepLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MeepModel">
+      <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.1\MeepModel.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MeepReddit\MeepReddit.csproj" />
