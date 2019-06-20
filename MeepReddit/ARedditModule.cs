@@ -8,6 +8,7 @@ using RedditSharp.Things;
 using MeepLib;
 
 using MeepReddit.Messages;
+using MeepLib.Algorithms;
 
 namespace MeepReddit
 {
@@ -23,13 +24,6 @@ namespace MeepReddit
         ///
         /// <para>Derives from ASCII values; 77 = M, 80 = P, 82 = R, 84 = T</para></remarks>
         public const Int32 GUIDPrefix = 77808284;
-
-        /// <summary>
-        /// Lowercase Base36 alphabet
-        /// </summary>
-        /// <remarks>Should be safe to assume it's always returned in lowercase by their API, so we can save the cost
-        /// of casting it.</remarks>
-        public const string Alphabet_base36_lowercase = "0123456789abcdefghijklmnopqrstuvwxyz";
 
         public Reddit Client
         {
@@ -176,30 +170,12 @@ namespace MeepReddit
             ReadOnlySpan<char> val = thingSpan.Slice(ixSeparator + 1);
 
             short thingType = (short)(type[1] - 48); // Only 6 kinds of type so far, so we only have to convert 1 char
-            var lngVal = BaseNToLong(val, Alphabet_base36_lowercase);
+            var lngVal = val.BaseNToLong(Converters.Alphabet_base36_lowercase);
             if (BitConverter.IsLittleEndian)
                 lngVal = System.Net.IPAddress.HostToNetworkOrder(lngVal);
             byte[] byteVal = BitConverter.GetBytes(lngVal);
 
             return new Guid(GUIDPrefix, 0, thingType, byteVal);
-        }
-
-        public static long BaseNToLong(ReadOnlySpan<char> value, string alphabet)
-        {
-            long result = 0;
-
-            int pos = 0;
-            for (int i = value.Length - 1; i >= 0; i--)
-            {
-                int idx = alphabet.IndexOf(value[i]);
-                if (idx >= 0)
-                    result += idx * (long)Math.Pow(alphabet.Length, pos);
-                else
-                    throw new InvalidOperationException(String.Format("Invalid character {0}", value[pos]));
-                pos++;
-            }
-
-            return result;
         }
 
         protected PostMessage ConvertToPost(Thing thing)
