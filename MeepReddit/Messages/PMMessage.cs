@@ -34,5 +34,14 @@ namespace MeepReddit.Messages
                 return Message as Thing;
             }
         }
+
+        [NotMapped]
+        public string TargetAuthor
+        {
+            get
+            {
+                return Message.AuthorName;
+            }
+        }
     }
 }

@@ -44,6 +44,15 @@ namespace MeepReddit.Messages
             }
         }
 
+        [NotMapped]
+        public string TargetAuthor
+        {
+            get
+            {
+                return User.FullName;
+            }
+        }
+
         [Index(IsUnique = false)]
         public DateTime ThingCreated
         {

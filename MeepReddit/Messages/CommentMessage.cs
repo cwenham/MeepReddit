@@ -48,6 +48,15 @@ namespace MeepReddit.Messages
             }
         }
 
+        [NotMapped]
+        public string TargetAuthor
+        {
+            get
+            {
+                return Comment.AuthorName;
+            }
+        }
+
         [MaxLength(20), Index(IsUnique = false)]
         public string Subreddit
         {

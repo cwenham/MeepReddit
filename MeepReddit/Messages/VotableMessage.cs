@@ -27,6 +27,13 @@ namespace MeepReddit.Messages
             }
         }
 
-
+        [NotMapped]
+        public string TargetAuthor
+        {
+            get
+            {
+                return Votable.AuthorName;
+            }
+        }
     }
 }

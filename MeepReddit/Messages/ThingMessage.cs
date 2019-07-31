@@ -15,6 +15,17 @@ namespace MeepReddit.Messages
         [DataMember]
         public Thing Thing { get; set; }
 
+        /// <summary>
+        /// Always returns null as an Author cannot be known until the type of Thing is known
+        /// </summary>
+        public string TargetAuthor
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public override string ToString()
         {
             if (Thing is Post)
