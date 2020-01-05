@@ -7,30 +7,17 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>AfterBuild</type>
-          <command>dotnet publish -r osx.10.15-x64</command>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CoreCLR-NCalc" Version="2.2.59" />
-    <PackageReference Include="SmartFormat.NET" Version="2.4.2" />
-    <PackageReference Include="NLog" Version="4.6.5" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="CoreCLR-NCalc" Version="2.2.70" />
+    <PackageReference Include="SmartFormat.NET" Version="2.5.0" />
+    <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="RedditSharp" Version="2.0.0-CI00075" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="MeepLib">
-      <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.1\MeepLib.dll</HintPath>
-    </Reference>
-    <Reference Include="MeepModel">
-      <HintPath>..\..\Meep\MeepLib\bin\Debug\netstandard2.1\MeepModel.dll</HintPath>
-    </Reference>
+    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+    <PackageReference Include="Meep.MeepLib" Version="1.0.2-beta" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.3.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Messages\" />

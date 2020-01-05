@@ -23,31 +23,24 @@ namespace MeepReddit
     [MeepNamespace(ARedditModule.PluginNamespace)]
     public class Unmoderated : Posts
     {
-        public override IObservable<Message> Pipeline
+        protected override IObservable<Message> GetMessagingSource()
         {
-            get
+            try
             {
-                if (_pipeline == null)
-                    try
-                    {
-                        var sub = GetSub(Subreddit);
-                        var posts = sub.GetUnmoderatedLinks();
-                        var stream = posts.Stream();
+                var sub = GetSub(Subreddit);
+                var posts = sub.GetUnmoderatedLinks();
+                var stream = posts.Stream();
 
-                        _pipeline = stream.Select(ConvertToPost);
-                        stream.Enumerate(new System.Threading.CancellationToken());
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex, $"{ex.GetType().Name} thrown when trying to get {Subreddit} unmoderated: {ex.Message}");
-                    }
+                var source = stream.Select(ConvertToPost);
+                stream.Enumerate(new System.Threading.CancellationToken());
 
-                return _pipeline;
+                return source;
             }
-            protected set
+            catch (Exception ex)
             {
-                _pipeline = value;
-            }
+                logger.Error(ex, $"{ex.GetType().Name} thrown when trying to get {Subreddit} unmoderated: {ex.Message}");
+                throw;
+            }            
         }
     }
 }

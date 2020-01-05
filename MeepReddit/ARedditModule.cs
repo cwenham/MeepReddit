@@ -8,7 +8,6 @@ using RedditSharp.Things;
 using MeepLib;
 
 using MeepReddit.Messages;
-using MeepLib.Algorithms;
 
 namespace MeepReddit
 {

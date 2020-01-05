@@ -23,26 +23,16 @@ namespace MeepReddit
     [MeepNamespace(ARedditModule.PluginNamespace)]
     public class Modmail : Posts
     {
-        public override IObservable<Message> Pipeline
+        protected override IObservable<Message> GetMessagingSource()
         {
-            get
-            {
-                if (_pipeline == null)
-                {
-                    var sub = GetSub(Subreddit);
-                    var posts = sub.GetModmail();
-                    var stream = posts.Stream();
+            var sub = GetSub(Subreddit);
+            var posts = sub.GetModmail();
+            var stream = posts.Stream();
 
-                    _pipeline = stream.Select(ConvertToPM);
-                    stream.Enumerate(new System.Threading.CancellationToken());
-                }
+            var source = stream.Select(ConvertToPM);
+            stream.Enumerate(new System.Threading.CancellationToken());
 
-                return _pipeline;
-            }
-            protected set
-            {
-                _pipeline = value;
-            }
+            return source;
         }
     }
 }

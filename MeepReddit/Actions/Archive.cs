@@ -20,6 +20,7 @@ using MeepReddit.Messages;
 
 namespace MeepReddit.Actions
 {
+    [MeepNamespace(ARedditModule.PluginNamespace)]
     public class Archive : ARedditModule
     {
         private static string ArchiveURL = "/api/mod/conversations/{0}/archive";

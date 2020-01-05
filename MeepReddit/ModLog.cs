@@ -8,7 +8,6 @@ using System.Reactive.Linq;
 
 using SmartFormat;
 using NLog;
-using Newtonsoft.Json;
 using RedditSharp;
 using RedditSharp.Things;
 
@@ -23,26 +22,16 @@ namespace MeepReddit
     [MeepNamespace(ARedditModule.PluginNamespace)]
     public class ModLog : Posts
     {
-        public override IObservable<Message> Pipeline
+        protected override IObservable<Message> GetMessagingSource()
         {
-            get
-            {
-                if (_pipeline == null)
-                {
-                    var sub = GetSub(Subreddit);
-                    var posts = sub.GetModerationLog();
-                    var stream = posts.Stream();
+            var sub = GetSub(Subreddit);
+            var posts = sub.GetModerationLog();
+            var stream = posts.Stream();
 
-                    _pipeline = stream.Select(ConvertToModAction);
-                    stream.Enumerate(new System.Threading.CancellationToken());
-                }
+            var source = stream.Select(ConvertToModAction);
+            stream.Enumerate(new System.Threading.CancellationToken());
 
-                return _pipeline;
-            }
-            protected set
-            {
-                _pipeline = value;
-            }
+            return source;
         }
     }
 }

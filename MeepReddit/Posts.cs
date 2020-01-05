@@ -9,7 +9,6 @@ using System.Reactive.Linq;
 using SmartFormat;
 using NLog;
 using Newtonsoft.Json;
-using RedditSharp;
 using RedditSharp.Things;
 
 using MeepLib;
@@ -38,27 +37,17 @@ namespace MeepReddit
             }
         }
 
-        public override IObservable<Message> Pipeline
+        protected override IObservable<Message> GetMessagingSource()
         {
-            get
-            {
-                if (_pipeline == null)
-                {
-                    var sub = GetSub(Subreddit);
-                    var posts = sub.GetPosts(SortType);
-                    var stream = posts.Stream();
+            var sub = GetSub(Subreddit);
+            var posts = sub.GetPosts(SortType);
+            var stream = posts.Stream();
 
-                    _pipeline = stream.Select(ConvertToPost);
-                    stream.Enumerate(new System.Threading.CancellationToken());
-                }
+            var source = stream.Select(ConvertToPost);
 
-                return _pipeline;
-            }
-            protected set
-            {
-                _pipeline = value;
-            }
+            stream.Enumerate(new System.Threading.CancellationToken());
+
+            return source;
         }
-        protected IObservable<Message> _pipeline;
     }
 }
