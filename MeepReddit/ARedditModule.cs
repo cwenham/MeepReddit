@@ -18,10 +18,11 @@ namespace MeepReddit
         /// <summary>
         /// First 32 bits of Reddit Message ID GUIDs
         /// </summary>
-        /// <remarks>All Messages that trace back to a Reddit Thing have IDs based on this prefix and
-        /// the Reddit ThingID.
+        /// <remarks>All Messages that trace back to a Reddit Thing have IDs based on this prefix and the Reddit
+        /// ThingID, which is globally unique to Reddit. This means we can construct a MessageID and know it'll match
+        /// to the same Reddit Thing in any Meep instance.
         ///
-        /// <para>Derives from ASCII values; 77 = M, 80 = P, 82 = R, 84 = T</para></remarks>
+        /// <para>Derives from ASCII values; 77 = M, 80 = P, 82 = R, 84 = T (MPRT, or "MeePReddiT")</para></remarks>
         public const Int32 GUIDPrefix = 77808284;
 
         public Reddit Client
@@ -115,7 +116,7 @@ namespace MeepReddit
         /// </summary>
         /// <value>The redirect URI.</value>
         /// <remarks>Usually left unchanged if you're using the AppKey attribute.</remarks>
-        public string RedirectURI { get; set; } = "{cfg.#AppKey.RedirectURI}";
+        public string RedirectURI { get; set; } = "{cfg.#AppKey.RedirectUri}";
 
         /// <summary>
         /// Reddit's main URL
@@ -137,7 +138,7 @@ namespace MeepReddit
         /// <value>The user agent.</value>
         /// <remarks>Developer's username is required by reddit so they can
         /// contact the creator in case of problems.</remarks>
-        public string UserAgent { get; set; } = "MeepReddit v0.1 (by /u/cwenham)";
+        public string UserAgent { get; set; } = "MeepReddit v0.2 (by /u/cwenham)";
 
 		protected Subreddit GetSub(string subName)
 		{
@@ -165,10 +166,10 @@ namespace MeepReddit
             var thingSpan = thingID.AsSpan();
 
             int ixSeparator = thingSpan.IndexOf('_');
-            ReadOnlySpan<char> type = thingSpan.Slice(0, ixSeparator);
+            ReadOnlySpan<char> type = ixSeparator > 0 ? thingSpan.Slice(0, ixSeparator) : null;
             ReadOnlySpan<char> val = thingSpan.Slice(ixSeparator + 1);
 
-            short thingType = (short)(type[1] - 48); // Only 6 kinds of type so far, so we only have to convert 1 char
+            short thingType = type.Length > 0 ? (short)(type[1] - 48) : (short)0; // Only 6 kinds of type so far, so we only have to convert 1 char
             var lngVal = val.BaseNToLong(Converters.Alphabet_base36_lowercase);
             if (BitConverter.IsLittleEndian)
                 lngVal = System.Net.IPAddress.HostToNetworkOrder(lngVal);

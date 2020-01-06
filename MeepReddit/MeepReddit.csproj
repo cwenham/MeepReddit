@@ -25,7 +25,4 @@
   <ItemGroup>
     <None Remove="Messages\OverviewMessage.xml" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="dotnet publish" />
-  </Target>
 </Project>
