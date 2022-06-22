@@ -13,7 +13,7 @@
     <PackageReference Include="CoreCLR-NCalc" Version="2.2.70" />
     <PackageReference Include="SmartFormat.NET" Version="2.5.0" />
     <PackageReference Include="NLog" Version="4.6.8" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RedditSharp" Version="2.0.0-CI00075" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
     <PackageReference Include="Meep.MeepLib" Version="1.0.2-beta" />
